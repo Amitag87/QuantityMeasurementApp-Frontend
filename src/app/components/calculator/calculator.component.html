@@ -1,0 +1,115 @@
+<div class="calculator-page">
+  <div class="page-header">
+    <h1 class="page-title">Quantity <span class="accent">Measurement</span></h1>
+    <p class="page-subtitle">Convert, compare and compute across units of measurement</p>
+  </div>
+
+  <div class="calculator-card">
+    <!-- Operation Tabs -->
+    <div class="op-tabs">
+      <button
+        *ngFor="let op of operations"
+        class="op-tab"
+        [class.active]="operation() === op.key"
+        (click)="onOperationChange(op.key)">
+        <span class="op-icon">{{ op.icon }}</span>
+        <span>{{ op.label }}</span>
+      </button>
+    </div>
+
+    <div class="form-body">
+      <!-- Measurement Type Selector -->
+      <div class="type-selector">
+        <button
+          *ngFor="let type of measurementTypes"
+          class="type-btn"
+          [class.active]="measurementType() === type"
+          (click)="onMeasurementTypeChange(type)">
+          {{ type | titlecase }}
+        </button>
+      </div>
+
+      <!-- Input Fields -->
+      <div class="inputs-row">
+        <!-- Input 1 -->
+        <div class="input-group">
+          <label class="input-label">{{ isSingleInput() ? 'From' : 'First Value' }}</label>
+          <div class="input-row">
+            <input
+              type="number"
+              class="num-input"
+              [ngModel]="value1()"
+              (ngModelChange)="value1.set($event)"
+              placeholder="0"
+            />
+            <select
+              class="unit-select"
+              [ngModel]="unit1()"
+              (ngModelChange)="unit1.set($event)">
+              <option *ngFor="let u of units" [value]="u">{{ formatUnit(u) }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Operator Badge -->
+        <div class="operator-badge">
+          <span *ngIf="operation() === 'convert'">⇄</span>
+          <span *ngIf="operation() === 'compare'">vs</span>
+          <span *ngIf="operation() === 'add'">+</span>
+          <span *ngIf="operation() === 'subtract'">−</span>
+          <span *ngIf="operation() === 'divide'">÷</span>
+        </div>
+
+        <!-- Input 2 / To Unit -->
+        <div class="input-group">
+          <label class="input-label">{{ isSingleInput() ? 'To Unit' : 'Second Value' }}</label>
+          <div class="input-row">
+            <input
+              *ngIf="!isSingleInput()"
+              type="number"
+              class="num-input"
+              [ngModel]="value2()"
+              (ngModelChange)="value2.set($event)"
+              placeholder="0"
+            />
+            <select
+              class="unit-select"
+              [class.full-width]="isSingleInput()"
+              [ngModel]="isSingleInput() ? toUnit() : unit2()"
+              (ngModelChange)="isSingleInput() ? toUnit.set($event) : unit2.set($event)">
+              <option *ngFor="let u of units" [value]="u">{{ formatUnit(u) }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculate Button -->
+      <button class="calculate-btn" [class.loading]="loading()" (click)="calculate()" [disabled]="loading()">
+        <span *ngIf="!loading()">Calculate</span>
+        <span *ngIf="loading()" class="spinner"></span>
+      </button>
+    </div>
+
+    <!-- Result Panel -->
+    <div class="result-panel" *ngIf="result() as r" [class.error-panel]="r.error">
+      <ng-container *ngIf="!r.error; else errBlock">
+        <div class="result-label">Result</div>
+        <div class="result-value">{{ r.resultString }}</div>
+        <div class="result-meta" *ngIf="r.resultValue !== null && r.resultUnit">
+          <span class="meta-chip">{{ r.resultValue }} {{ formatUnit(r.resultUnit) }}</span>
+          <span class="meta-chip op-chip">{{ r.operation | titlecase }}</span>
+        </div>
+      </ng-container>
+      <ng-template #errBlock>
+        <div class="result-label error-label">⚠ Error</div>
+        <div class="result-value error-text">{{ r.errorMessage }}</div>
+      </ng-template>
+    </div>
+
+    <!-- API Error -->
+    <div class="result-panel error-panel" *ngIf="error()">
+      <div class="result-label error-label">⚠ Request Failed</div>
+      <div class="result-value error-text">{{ error() }}</div>
+    </div>
+  </div>
+</div>

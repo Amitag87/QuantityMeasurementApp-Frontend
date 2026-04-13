@@ -1,0 +1,296 @@
+.calculator-page {
+  min-height: calc(100vh - 70px);
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 231, 196, 0.06) 0%, transparent 70%);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  .page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.04em;
+    margin: 0 0 0.5rem;
+
+    .accent { color: #63e7c4; }
+  }
+
+  .page-subtitle {
+    color: rgba(255,255,255,0.45);
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.calculator-card {
+  width: 100%;
+  max-width: 720px;
+  background: rgba(15, 15, 30, 0.8);
+  border: 1px solid rgba(99, 231, 196, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03) inset;
+}
+
+// Operation Tabs
+.op-tabs {
+  display: flex;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(99, 231, 196, 0.08);
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.op-tab {
+  flex: 1;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem 0.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  .op-icon {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  &:hover { color: rgba(255,255,255,0.75); }
+
+  &.active {
+    color: #63e7c4;
+    border-bottom-color: #63e7c4;
+    background: rgba(99, 231, 196, 0.05);
+  }
+}
+
+.form-body {
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// Type Selector
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.type-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { border-color: rgba(99, 231, 196, 0.4); color: #fff; }
+
+  &.active {
+    background: rgba(99, 231, 196, 0.12);
+    border-color: rgba(99, 231, 196, 0.5);
+    color: #63e7c4;
+    font-weight: 600;
+  }
+}
+
+// Inputs
+.inputs-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: end;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.4);
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.num-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: border-color 0.2s;
+  outline: none;
+
+  &:focus { border-color: rgba(99, 231, 196, 0.5); background: rgba(99,231,196,0.04); }
+  &::-webkit-inner-spin-button { opacity: 0.4; }
+}
+
+.unit-select {
+  padding: 0.75rem 0.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  max-width: 130px;
+
+  &:focus { border-color: rgba(99, 231, 196, 0.5); }
+  option { background: #0f0f1e; }
+
+  &.full-width { max-width: 100%; width: 100%; }
+}
+
+.operator-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(99, 231, 196, 0.1);
+  border: 1px solid rgba(99, 231, 196, 0.2);
+  color: #63e7c4;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+// Calculate Button
+.calculate-btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #63e7c4 0%, #3b82f6 100%);
+  color: #0a0a14;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  position: relative;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  &.loading { pointer-events: none; }
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(10,10,20,0.3);
+  border-top-color: #0a0a14;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// Result
+.result-panel {
+  margin: 0 2rem 2rem;
+  padding: 1.5rem;
+  background: rgba(99, 231, 196, 0.05);
+  border: 1px solid rgba(99, 231, 196, 0.2);
+  border-radius: 14px;
+  animation: fadeIn 0.3s ease;
+
+  &.error-panel {
+    background: rgba(255, 80, 80, 0.05);
+    border-color: rgba(255, 80, 80, 0.2);
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.result-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(99, 231, 196, 0.7);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+
+  &.error-label { color: rgba(255, 100, 100, 0.7); }
+}
+
+.result-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  word-break: break-word;
+
+  &.error-text { color: rgba(255, 140, 140, 0.9); font-size: 1rem; font-weight: 400; }
+}
+
+.result-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+  background: rgba(99, 231, 196, 0.1);
+  border: 1px solid rgba(99, 231, 196, 0.2);
+  color: #63e7c4;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.op-chip { background: rgba(59, 130, 246, 0.1); border-color: rgba(59,130,246,0.2); color: #93c5fd; }
+}
+
+@media (max-width: 600px) {
+  .form-body { padding: 1.25rem 1rem 1.5rem; }
+  .inputs-row { grid-template-columns: 1fr; }
+  .operator-badge { margin: 0 auto; }
+  .result-panel { margin: 0 1rem 1.5rem; }
+}
