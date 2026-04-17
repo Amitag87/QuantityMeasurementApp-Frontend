@@ -25,7 +25,7 @@ export interface QuantityMeasurementResult {
   errorMessage?: string;
   createdAt?: string;
 }
-
+ 
 export interface AuthRequest {
   email: string;
   password: string;
