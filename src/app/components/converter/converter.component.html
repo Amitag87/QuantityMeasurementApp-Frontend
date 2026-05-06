@@ -1,0 +1,124 @@
+<div class="converter-page">
+  <div class="page-header">
+    <h1 class="page-title">Quantity<span class="accent">Measure</span></h1>
+    <p class="page-subtitle">Convert · Compare · Calculate across all measurement units</p>
+  </div>
+
+  <div class="converter-card">
+
+    <!-- Operation Tabs -->
+    <div class="op-tabs">
+      <button
+        *ngFor="let op of filteredOps"
+        class="op-tab"
+        [class.active]="selectedOp === op.key"
+        (click)="selectedOp = op.key; onOpChange()">
+        <span class="op-icon">{{ op.icon }}</span>
+        <span class="op-label">{{ op.label }}</span>
+      </button>
+    </div>
+
+    <!-- Type Selector -->
+    <div class="type-selector">
+      <button
+        *ngFor="let t of measurementTypes"
+        class="type-btn"
+        [class.active]="selectedType === t"
+        (click)="selectedType = t; onTypeChange()">
+        <span class="type-icon">{{ t === 'LENGTH' ? '📏' : t === 'WEIGHT' ? '⚖️' : t === 'VOLUME' ? '🧪' : '🌡️' }}</span>
+        {{ t | titlecase }}
+      </button>
+    </div>
+
+    <!-- Input Panel -->
+    <div class="input-panel">
+      <!-- First Quantity -->
+      <div class="quantity-group">
+        <label class="qty-label">{{ isSingleInput ? 'Input Value' : 'First Value' }}</label>
+        <div class="qty-inputs">
+          <input
+            type="number"
+            class="qty-input"
+            [(ngModel)]="value1"
+            placeholder="0"
+          />
+          <select class="unit-select" [(ngModel)]="unit1">
+            <option *ngFor="let u of availableUnits" [value]="u">{{ u | titlecase }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Arrow / Op indicator -->
+      <div class="op-arrow">
+        <span>{{ isSingleInput ? '→' : operations | opIcon: selectedOp }}</span>
+      </div>
+
+      <!-- Second Quantity -->
+      <div class="quantity-group" *ngIf="!isSingleInput">
+        <label class="qty-label">Second Value</label>
+        <div class="qty-inputs">
+          <input
+            type="number"
+            class="qty-input"
+            [(ngModel)]="value2"
+            placeholder="0"
+          />
+          <select class="unit-select" [(ngModel)]="unit2">
+            <option *ngFor="let u of availableUnits" [value]="u">{{ u | titlecase }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Convert target unit -->
+      <div class="quantity-group" *ngIf="isSingleInput">
+        <label class="qty-label">Convert To</label>
+        <div class="qty-inputs single">
+          <select class="unit-select full" [(ngModel)]="toUnit">
+            <option *ngFor="let u of availableUnits" [value]="u">{{ u | titlecase }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Execute Button -->
+    <button class="execute-btn" (click)="execute()" [disabled]="loading">
+      <span *ngIf="!loading">{{ getOpLabel() }}</span>
+      <span *ngIf="loading" class="spinner"></span>
+    </button>
+
+    <!-- Result -->
+    <div class="result-box" *ngIf="result && !result.error">
+      <div class="result-label">Result</div>
+      <div class="result-value">{{ getResultDisplay() }}</div>
+      <div class="result-meta" *ngIf="result.operation">
+        Operation: <span>{{ result.operation | titlecase }}</span>
+      </div>
+    </div>
+
+    <div class="error-box" *ngIf="result?.error || error">
+      <span class="error-icon">⚠</span>
+      {{ result?.errorMessage || error }}
+    </div>
+
+  </div>
+
+  <!-- Quick examples -->
+  <div class="examples-grid">
+    <div class="example-card" (click)="selectedType='LENGTH'; selectedOp='convert'; value1=1; unit1='FEET'; toUnit='INCHES'; onTypeChange()">
+      <span class="ex-icon">📏</span>
+      <span>Feet → Inches</span>
+    </div>
+    <div class="example-card" (click)="selectedType='WEIGHT'; selectedOp='convert'; value1=1; unit1='KILOGRAM'; toUnit='GRAM'; onTypeChange()">
+      <span class="ex-icon">⚖️</span>
+      <span>Kg → Grams</span>
+    </div>
+    <div class="example-card" (click)="selectedType='TEMPERATURE'; selectedOp='convert'; value1=100; unit1='CELSIUS'; toUnit='FAHRENHEIT'; onTypeChange()">
+      <span class="ex-icon">🌡️</span>
+      <span>°C → °F</span>
+    </div>
+    <div class="example-card" (click)="selectedType='VOLUME'; selectedOp='convert'; value1=1; unit1='GALLON'; toUnit='LITRE'; onTypeChange()">
+      <span class="ex-icon">🧪</span>
+      <span>Gallon → Litre</span>
+    </div>
+  </div>
+</div>

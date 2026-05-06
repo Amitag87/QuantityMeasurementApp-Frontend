@@ -1,0 +1,33 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">⚖</span>
+    <span class="brand-name">QuantaMeasure</span>
+  </div>
+
+  <div class="nav-links" [class.open]="menuOpen">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="menuOpen=false">
+      <span class="nav-icon">🔬</span> Converter
+    </a>
+    <a routerLink="/history" routerLinkActive="active" (click)="menuOpen=false">
+      <span class="nav-icon">📋</span> History
+      <span class="lock-badge" *ngIf="!isLoggedIn">🔒</span>
+    </a>
+  </div>
+
+  <div class="nav-auth">
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/auth" class="btn-login">Sign In</a>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn">
+      <div class="user-pill">
+        <div class="avatar">{{ getInitials() }}</div>
+        <span class="user-name">{{ user?.name || user?.email }}</span>
+        <button class="btn-logout" (click)="logout()">↩</button>
+      </div>
+    </ng-container>
+  </div>
+
+  <button class="hamburger" (click)="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>

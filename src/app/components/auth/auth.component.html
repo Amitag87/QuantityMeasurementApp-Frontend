@@ -1,0 +1,87 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="logo-icon">⚖</span>
+      <span class="logo-text">QuantaMeasure</span>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab" [class.active]="mode === 'login'" (click)="switchMode('login')">Sign In</button>
+      <button class="auth-tab" [class.active]="mode === 'register'" (click)="switchMode('register')">Register</button>
+    </div>
+
+    <!-- Google Button -->
+    <div class="google-section">
+      <button class="google-btn" (click)="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+          <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <div class="divider"><span>or</span></div>
+
+    <!-- Error / Success -->
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+    <div class="alert alert-success" *ngIf="success">{{ success }}</div>
+
+    <!-- LOGIN FORM -->
+    <form *ngIf="mode === 'login'" (ngSubmit)="submitLogin()" class="auth-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="loginEmail" name="email" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="loginPassword" name="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <button type="submit" class="submit-btn" [disabled]="loading">
+        <span *ngIf="!loading">Sign In</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form *ngIf="mode === 'register'" (ngSubmit)="submitRegister()" class="auth-form">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" [(ngModel)]="regName" name="name" placeholder="John Doe" autocomplete="name"/>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="regEmail" name="email" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="regPassword" name="password" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" [(ngModel)]="regConfirm" name="confirm" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <button type="submit" class="submit-btn" [disabled]="loading">
+        <span *ngIf="!loading">Create Account</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+    </form>
+
+    <p class="switch-hint">
+      <ng-container *ngIf="mode === 'login'">
+        No account? <a (click)="switchMode('register')">Register here</a>
+      </ng-container>
+      <ng-container *ngIf="mode === 'register'">
+        Already registered? <a (click)="switchMode('login')">Sign in</a>
+      </ng-container>
+    </p>
+  </div>
+
+  <div class="auth-bg-decor">
+    <div class="decor-circle c1"></div>
+    <div class="decor-circle c2"></div>
+    <div class="decor-circle c3"></div>
+  </div>
+</div>

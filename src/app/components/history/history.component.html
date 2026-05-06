@@ -1,0 +1,88 @@
+<div class="history-page">
+
+  <div class="history-header">
+    <h1 class="page-title">Operation <span class="accent">History</span></h1>
+    <p class="page-subtitle">Your complete measurement operation log</p>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-chip all" [class.active]="selectedFilter === 'ALL'" (click)="setFilter('ALL')">
+      <span class="stat-label">All</span>
+      <span class="stat-num">{{ totalCount() }}</span>
+    </div>
+    <div
+      *ngFor="let op of operations"
+      class="stat-chip"
+      [class.active]="selectedFilter === op.key.toUpperCase()"
+      (click)="setFilter(op.key.toUpperCase())">
+      <span class="stat-icon">{{ op.icon }}</span>
+      <span class="stat-label">{{ op.label }}</span>
+      <span class="stat-num">{{ counts[op.key] || 0 }}</span>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loader-ring"></div>
+    <span>Loading history…</span>
+  </div>
+
+  <!-- Error -->
+  <div class="error-box" *ngIf="error && !loading">
+    <span>⚠</span> {{ error }}
+  </div>
+
+  <!-- Empty -->
+  <div class="empty-state" *ngIf="!loading && !error && filtered.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No records yet</h3>
+    <p>Perform some operations to see your history here.</p>
+    <a routerLink="/" class="cta-link">Go to Converter →</a>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="!loading && filtered.length > 0">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Operation</th>
+          <th>Input</th>
+          <th>Result</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of filtered; let i = index" [class.error-row]="r.error" class="record-row">
+          <td class="row-id">{{ i + 1 }}</td>
+          <td>
+            <span class="op-badge">
+              <span class="op-sym">{{ getOpIcon(r.operation) }}</span>
+              {{ r.operation | titlecase }}
+            </span>
+          </td>
+          <td class="input-cell">
+            <span class="qty">{{ r.thisValue || '—' }} {{ r.thisUnit || '' }}</span>
+            <span class="qty-sep" *ngIf="r.thatValue !== null && r.thatValue !== undefined"> ↔ {{ r.thatValue || '—' }} {{ r.thatUnit || '' }}</span>
+          </td>
+          <td class="result-cell" [class.error-result]="r.error">
+            {{ getResultDisplay(r) }}
+          </td>
+          <td>
+            <span class="type-tag">{{ r.thisMeasurementType | titlecase }}</span>
+          </td>
+          <td class="date-cell">{{ formatDate(r.createdAt) }}</td>
+          <td>
+            <span class="status-dot" [class.success]="!r.error" [class.fail]="r.error">
+              {{ r.error ? '✗' : '✓' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

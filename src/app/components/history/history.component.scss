@@ -1,0 +1,196 @@
+.history-page {
+  min-height: calc(100vh - 70px);
+  padding: 3rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+
+  .page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.04em;
+    margin: 0 0 0.4rem;
+
+    .accent { color: #63e7c4; }
+  }
+
+  .page-subtitle {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.9rem;
+    strong { color: rgba(255,255,255,0.7); }
+  }
+}
+
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.op-filters {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { border-color: rgba(99,231,196,0.4); color: #fff; }
+  &.active {
+    background: rgba(99,231,196,0.12);
+    border-color: rgba(99,231,196,0.5);
+    color: #63e7c4;
+    font-weight: 600;
+  }
+}
+
+.search-input {
+  margin-left: auto;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  font-size: 0.88rem;
+  outline: none;
+  min-width: 180px;
+  transition: border-color 0.2s;
+
+  &::placeholder { color: rgba(255,255,255,0.3); }
+  &:focus { border-color: rgba(99,231,196,0.4); }
+}
+
+// Loading skeleton
+.pulse-grid { display: flex; flex-direction: column; gap: 0.6rem; }
+.pulse-row {
+  height: 52px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+// Empty / Error
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+
+  .empty-icon { font-size: 3rem; }
+
+  &.error-state { color: rgba(255,120,120,0.7); }
+}
+
+.retry-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,120,120,0.3);
+  background: transparent;
+  color: rgba(255,120,120,0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover { background: rgba(255,100,100,0.1); }
+}
+
+// Table
+.history-table-wrap {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+
+  thead tr {
+    background: rgba(0,0,0,0.35);
+    th {
+      padding: 0.8rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.35);
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: rgba(99,231,196,0.03); }
+    &.error-row td { opacity: 0.7; }
+  }
+
+  td {
+    padding: 0.85rem 1rem;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.75);
+    vertical-align: middle;
+  }
+}
+
+.row-num { color: rgba(255,255,255,0.25); font-size: 0.8rem; }
+
+.op-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 100px;
+  border: 1px solid;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.val-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  .val { font-weight: 600; color: #fff; }
+  .unit { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+  .mtype { font-size: 0.7rem; color: rgba(255,255,255,0.25); }
+}
+
+.na { color: rgba(255,255,255,0.2); }
+
+.result-str { color: #63e7c4; font-weight: 500; }
+.error-msg { color: rgba(255,120,120,0.8); font-size: 0.82rem; }
+
+.date-cell {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+}
+
+.count-badge {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  text-align: right;
+}
